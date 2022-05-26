@@ -23,8 +23,8 @@ public class UserService {
 
     @Transactional
     public UserDE save(UserDE userDE) {
-        userDE.setPassword(bCryptPasswordEncoder.encode(userDE.getPassword()));
-        return userRepository.save(userDE);
+        userDE.setPassword(this.bCryptPasswordEncoder.encode(userDE.getPassword()));
+        return this.userRepository.save(userDE);
     }
 
     public UserDE mapDE(UserDTO userDTO){

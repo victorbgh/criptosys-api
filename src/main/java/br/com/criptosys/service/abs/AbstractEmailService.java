@@ -1,4 +1,4 @@
-package br.com.criptosys.service.abtc;
+package br.com.criptosys.service.abs;
 
 import br.com.criptosys.domain.entity.UserDE;
 import br.com.criptosys.service.EmailService;

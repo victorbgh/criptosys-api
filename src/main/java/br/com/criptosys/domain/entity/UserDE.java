@@ -1,10 +1,14 @@
 package br.com.criptosys.domain.entity;
 
+import br.com.criptosys.enums.Profile;
 import br.com.criptosys.shared.domain.BaseLogDE;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "USERS")
@@ -19,6 +23,7 @@ import java.math.BigInteger;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
 public class UserDE extends BaseLogDE {
 
     @Id
@@ -29,7 +34,7 @@ public class UserDE extends BaseLogDE {
     @Column(name = "NAME", length = 40)
     private String name;
 
-    @Column(name = "EMAIL", length = 20)
+    @Column(name = "EMAIL", length = 100)
     private String email;
 
     @Column(name = "USERNAME", length = 20)

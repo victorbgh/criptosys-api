@@ -7,17 +7,18 @@ import javax.persistence.*;
 import java.math.BigInteger;
 
 @Entity
-@Table(schema = "dbo", name = "USER")
+@Table(name = "USERS")
 @AttributeOverrides({
-        @AttributeOverride(name = "dateCreate", column = @Column(name = "DATE_CREATE", columnDefinition = "datetime")),
+        @AttributeOverride(name = "dateCreate", column = @Column(name = "DATE_CREATE", columnDefinition = "Timestamp")),
         @AttributeOverride(name = "createUser", column = @Column(name = "CREATE_USER", length = 20)),
         @AttributeOverride(name = "processCreate", column = @Column(name = "PROCESS_CREATE", length = 70)),
-        @AttributeOverride(name = "dateUpdate", column = @Column(name = "DATE_UPDATE", columnDefinition = "datetime")),
+        @AttributeOverride(name = "dateUpdate", column = @Column(name = "DATE_UPDATE", columnDefinition = "Timestamp")),
         @AttributeOverride(name = "updateUser", column = @Column(name = "UPDATE_USER", length = 20)),
         @AttributeOverride(name = "processUpdate", column = @Column(name = "PROCESS_UPDATE", length = 70)),
 })
 @Getter
 @Setter
+@Builder
 public class UserDE extends BaseLogDE {
 
     @Id
@@ -25,7 +26,7 @@ public class UserDE extends BaseLogDE {
     @Column(name = "USER_ID", length = 20, nullable = false)
     private BigInteger userId;
 
-    @Column(name = "NAME", length = 20)
+    @Column(name = "NAME", length = 40)
     private String name;
 
     @Column(name = "EMAIL", length = 20)

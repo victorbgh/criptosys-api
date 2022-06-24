@@ -8,6 +8,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -27,6 +31,18 @@ public class UserService {
     public UserDE save(UserDE userDE) {
         userDE.setPassword(this.bCryptPasswordEncoder.encode(userDE.getPassword()));
         return this.userRepository.save(userDE);
+    }
+
+    public List<UserDE> findAll() {
+        return this.userRepository.findAll();
+    }
+
+    public Optional<UserDE> findById(BigInteger id) {
+        return this.userRepository.findById(id);
+    }
+
+    public void deleteById(BigInteger id) {
+        this.userRepository.deleteById(id);
     }
 
     public UserDE mapDE(UserDTO userDTO){

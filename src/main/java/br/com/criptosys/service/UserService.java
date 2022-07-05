@@ -41,6 +41,14 @@ public class UserService {
         return this.userRepository.findById(id);
     }
 
+    public UserDE findByEmailAndUsername(String email, String username){
+        return this.userRepository.findByEmailAndUsername(email, username);
+    }
+
+    public UserDE findByUsername(String username){
+        return this.userRepository.findByUsername(username);
+    }
+
     public void deleteById(BigInteger id) {
         this.userRepository.deleteById(id);
     }

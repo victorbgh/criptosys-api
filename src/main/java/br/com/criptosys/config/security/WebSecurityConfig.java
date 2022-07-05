@@ -1,12 +1,13 @@
-package br.com.criptosys;
+package br.com.criptosys.config.security;
 
-import br.com.criptosys.security.JWTAuthenticationFilter;
-import br.com.criptosys.security.JWTAuthorizationFilter;
-import br.com.criptosys.security.JWTUtil;
+import br.com.criptosys.security.AutenticacaoService;
+import br.com.criptosys.security.TokenService;
+import br.com.criptosys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,13 +15,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,13 +24,19 @@ import java.util.Arrays;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired
-    private UserDetailsService userDetailService;
+    private AutenticacaoService autenticacaoService;
 
     @Autowired
-    private JWTUtil jwtUtil;
+    private UserService userService;
+
+    @Autowired
+    private TokenService tokenService;
 
     private static final String[] PUBLIC_MATCHERS = {
-            "/h2-console/**"
+            "/h2-console/**",
+//            "/swagger-resources/**",
+//            "/webjars/**",
+
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {};
@@ -44,6 +46,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     };
 
     @Override
+    @Bean
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(autenticacaoService).passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().disable();
         http.cors().and().csrf().disable();
@@ -51,27 +64,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll().
                 antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll().
                 antMatchers(PUBLIC_MATCHERS).permitAll().
-                anyRequest().authenticated();
-        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
-        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailService));
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    }
-
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailService).passwordEncoder(bCryptPasswordEncoder());
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
-        configuration.setAllowedMethods(Arrays.asList("POST"
-                , "GET"
-                , "PUT"
-                , "DELETE"
-                , "OPTIONS"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+                anyRequest().authenticated()
+        .and().cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, userService), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
@@ -81,12 +76,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/v2/api-docs"
-                        , "/configuration/ui"
-                        , "/swagger-resources/**"
-                        , "/configuration/**"
-                        , "/swagger-ui.html"
-                        , "/webjars/**");
+        web.ignoring().antMatchers("/**.html"
+                , "/v3/api-docs/**"
+                , "/webjars/**"
+                , "/configuration/**"
+                , "/swagger-resources/**"
+                , "/swagger-ui/**"
+                , "/h2-console/**");
     }
 }

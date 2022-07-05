@@ -1,7 +1,8 @@
-package br.com.criptosys.security;
+package br.com.criptosys.dto;
 
 import br.com.criptosys.enums.Profile;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class UserSS implements UserDetails {
 
     private static final long serialVersionUID = 1L;

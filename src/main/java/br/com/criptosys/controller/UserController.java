@@ -4,6 +4,7 @@ import br.com.criptosys.domain.entity.UserDE;
 import br.com.criptosys.dto.UserDTO;
 import br.com.criptosys.service.UserService;
 import com.sun.istack.NotNull;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,8 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(description = "Save user"
+            , summary = "Save user")
     @RequestMapping(method= RequestMethod.POST)
     public ResponseEntity<Void> save(@RequestBody UserDTO userDTO){
         UserDE user = this.userService.save(this.userService.mapDE(userDTO));
@@ -32,16 +35,22 @@ public class UserController {
         return ResponseEntity.created(uri).build();
     }
 
+    @Operation(description = "Find all users registered"
+            , summary = "Find all")
     @GetMapping("/findAll")
     public ResponseEntity<List<UserDE>> findAll(){
         return ResponseEntity.ok(this.userService.findAll());
     }
 
+    @Operation(description = "Find the user by id"
+            , summary = "Find By id")
     @GetMapping("/findById/{id}")
     public ResponseEntity<Optional<UserDE>> findById(@PathVariable @NotNull BigInteger id){
         return ResponseEntity.ok(this.userService.findById(id));
     }
 
+    @Operation(description = "Delete user by id"
+            , summary = "Delete user")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable @NotNull BigInteger id){
         this.userService.deleteById(id);

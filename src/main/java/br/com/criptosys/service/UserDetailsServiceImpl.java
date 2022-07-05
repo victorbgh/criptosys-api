@@ -2,7 +2,7 @@ package br.com.criptosys.service;
 
 import br.com.criptosys.domain.entity.UserDE;
 import br.com.criptosys.domain.repository.UserRepository;
-import br.com.criptosys.security.UserSS;
+import br.com.criptosys.dto.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

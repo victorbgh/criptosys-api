@@ -1,4 +1,4 @@
-package br.com.criptosys;
+package br.com.criptosys.config.database;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

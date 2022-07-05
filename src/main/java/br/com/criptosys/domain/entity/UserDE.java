@@ -1,14 +1,10 @@
 package br.com.criptosys.domain.entity;
 
-import br.com.criptosys.enums.Profile;
 import br.com.criptosys.shared.domain.BaseLogDE;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "USERS")

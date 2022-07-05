@@ -13,4 +13,8 @@ public interface UserRepository extends JpaRepository<UserDE, BigInteger> {
     @Transactional(readOnly=true)
     UserDE findByEmail(String email);
 
+    UserDE findByEmailAndUsername(String email, String username);
+
+    UserDE findByUsername(String username);
+
 }

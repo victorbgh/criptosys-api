@@ -1,4 +1,4 @@
-package br.com.criptosys.service.abs;
+package br.com.criptosys.service.impl;
 
 import br.com.criptosys.domain.entity.UserDE;
 import br.com.criptosys.service.EmailService;
@@ -7,7 +7,7 @@ import org.springframework.mail.SimpleMailMessage;
 
 import java.util.Date;
 
-public abstract class AbstractEmailService implements EmailService {
+public abstract class EmailServiceImpl implements EmailService {
 
     @Value("${default.sender}")
     private String sender;

@@ -42,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     private static final String[] PUBLIC_MATCHERS_GET = {};
 
     private static final String[] PUBLIC_MATCHERS_POST = {
-            "/api/v1/user"
+            "/api/v1/user",
+            "/api/v1/auth/**"
     };
 
     @Override
@@ -66,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 antMatchers(PUBLIC_MATCHERS).permitAll().
                 anyRequest().authenticated()
         .and().cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, userService), UsernamePasswordAuthenticationFilter.class);
+        .and().addFilterBefore(new AuthenticationTokenFilter(tokenService, userService), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

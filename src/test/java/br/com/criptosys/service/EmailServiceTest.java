@@ -3,12 +3,16 @@ package br.com.criptosys.service;
 import br.com.criptosys.domain.entity.UserDE;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigInteger;
 
+@RunWith(MockitoJUnitRunner.class)
 public class EmailServiceTest {
 
     @Mock

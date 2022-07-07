@@ -15,14 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigInteger;
 
-public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
+public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
     private final UserService userService;
 
     HttpServletRequest webRequest;
 
-    public AutenticacaoViaTokenFilter(TokenService tokenService, UserService userService) {
+    public AuthenticationTokenFilter(TokenService tokenService, UserService userService) {
         this.tokenService = tokenService;
         this.userService = userService;
     }

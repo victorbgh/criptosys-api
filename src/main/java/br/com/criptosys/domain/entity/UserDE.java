@@ -20,6 +20,7 @@ import java.math.BigInteger;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDE extends BaseLogDE {
 
     @Id

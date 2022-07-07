@@ -4,13 +4,16 @@ import br.com.criptosys.domain.entity.UserDE;
 import br.com.criptosys.domain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.math.BigInteger;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
     private UserService userService;
